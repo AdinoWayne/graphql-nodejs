@@ -16,8 +16,8 @@ export default class ArticleController {
             let id: string = req.params.id;
             res.send(await this.service.findArticleById(id));
         } catch (ex){
-            if(ex.code) res.status(ex.code).send(ex.message)
-            res.status(500).send(ex.message);
+            if(ex instanceof ErrorException) res.status(ex.code).send(ex.message)
+            res.status(500).send(ex);
         }
     }
 
@@ -25,8 +25,8 @@ export default class ArticleController {
         try {
             res.send(await this.service.getArticles());
         } catch (ex){
-            if(ex.code) res.status(ex.code).send(ex.message)
-            res.status(500).send(ex.message);
+            if(ex instanceof ErrorException) res.status(ex.code).send(ex.message)
+            res.status(500).send(ex);
         }
     }
 
@@ -35,8 +35,8 @@ export default class ArticleController {
             let article: ArticleInterface = req.body;
             res.send(await this.service.saveArticle(article));
         } catch (ex){
-            if(ex.code) res.status(ex.code).send(ex.message)
-            res.status(500).send(ex.message);
+            if(ex instanceof ErrorException) res.status(ex.code).send(ex.message)
+            res.status(500).send(ex);
         }
     }
 };

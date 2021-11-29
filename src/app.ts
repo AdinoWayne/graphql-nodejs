@@ -2,6 +2,8 @@ import dotenv from 'dotenv';
 import ServerConfig from './config/ServerConfig';
 import MongoConfig from './config/MongoConfig';
 import ArticleRoute from './routes/ArticleRoute';
+import UserRoute from './routes/UserRoute';
+import AuthRoute from './routes/AuthRoute';
 
 dotenv.config();
 
@@ -10,5 +12,7 @@ let server: ServerConfig = new ServerConfig();
 
 mongo.connect();
 server.initServer([
-    new ArticleRoute()
+    new ArticleRoute(),
+    new UserRoute(),
+    new AuthRoute()
 ]);

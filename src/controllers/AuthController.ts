@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator/check';
+import ErrorException from '../base/ErrorException';
 import AuthService from '../services/AuthService';
 
 export default class AuthController {
@@ -19,18 +20,18 @@ export default class AuthController {
             const { email, password } = req.body;
             res.send(await this.service.authentication(email, password));
         } catch (ex){
-            if(ex.code) res.status(ex.code).send(ex.message)
-            res.status(500).send(ex.message);
+            if(ex instanceof ErrorException) res.status(ex.code).send(ex.message)
+            res.status(500).send(ex);
         }
     }
 
-    onAuth = async (req: any, res: Response) => {
+    onAuth = async (req: Request, res: Response) => {
         try {
-            const { id } = req?.user
+            const { id } = req.user;
             res.send(await this.service.findUserById(id));
         } catch (ex){
-            if(ex.code) res.status(ex.code).send(ex.message)
-            res.status(500).send(ex.message);
+            if(ex instanceof ErrorException) res.status(ex.code).send(ex.message)
+            res.status(500).send(ex);
         }
     }
 };

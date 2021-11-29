@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import config from 'config';
 
 module.exports = async function(req: { header: (arg0: string) => any; user: any; }, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { msg: string; }): void; new(): any; }; }; }, next: () => void) {
     // Get token from header
@@ -12,7 +11,7 @@ module.exports = async function(req: { header: (arg0: string) => any; user: any;
 
     // Verify token
     try {
-        await jwt.verify(token, config.get('jwtSecret'), (error: any, decoded: any) => {
+        await jwt.verify(token, process.env.JWT_SECRET_KEY, (error: any, decoded: any) => {
         if(error){
             res.status(401).json({ msg: 'Token is not valid' });
         }

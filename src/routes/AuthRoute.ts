@@ -2,7 +2,7 @@ import { Application } from 'express';
 import RouteInterface from '../models/interface/RouteInterface';
 import AuthController from '../controllers/AuthController';
 import { check } from 'express-validator/check';
-
+var auth = require('./../middleware/auth');
 export default class AuthRoute implements RouteInterface {
 
     private controller: AuthController;
@@ -13,7 +13,7 @@ export default class AuthRoute implements RouteInterface {
 
     public applyRoute(app: Application): void {
 
-        app.get('/api/auth', this.controller.onAuth);
+        app.get('/api/auth', auth, this.controller.onAuth);
 
         app.post('/api/auth',
         [
